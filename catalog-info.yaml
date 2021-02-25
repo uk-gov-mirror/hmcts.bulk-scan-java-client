@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: bulk-scan-java-client
+  description: Library description for bulk-scan-client
+  annotations:
+    github.com/project-slug: 'hmcts/bulk-scan-java-client'
+  tags:
+    - library
+    - bulk-scan-java-client
+spec:
+  type: library
+  lifecycle: experimental
+  owner: DTS Bulk Scan Team
