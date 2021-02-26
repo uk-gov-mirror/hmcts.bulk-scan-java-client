@@ -11,11 +11,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * InlineObject1
+ * StatusUpdate
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-02-25T22:45:18.182988Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-02-26T14:51:24.148474Z[Europe/London]")
 
-public class InlineObject1   {
+public class StatusUpdate   {
   /**
    * Status to set the envelope to
    */
@@ -59,7 +59,7 @@ public class InlineObject1   {
   @JsonProperty("reason")
   private String reason;
 
-  public InlineObject1 status(StatusEnum status) {
+  public StatusUpdate status(StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -80,7 +80,7 @@ public class InlineObject1   {
     this.status = status;
   }
 
-  public InlineObject1 reason(String reason) {
+  public StatusUpdate reason(String reason) {
     this.reason = reason;
     return this;
   }
@@ -109,9 +109,9 @@ public class InlineObject1   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    InlineObject1 inlineObject1 = (InlineObject1) o;
-    return Objects.equals(this.status, inlineObject1.status) &&
-        Objects.equals(this.reason, inlineObject1.reason);
+    StatusUpdate statusUpdate = (StatusUpdate) o;
+    return Objects.equals(this.status, statusUpdate.status) &&
+        Objects.equals(this.reason, statusUpdate.reason);
   }
 
   @Override
@@ -122,7 +122,7 @@ public class InlineObject1   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class InlineObject1 {\n");
+    sb.append("class StatusUpdate {\n");
     
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");

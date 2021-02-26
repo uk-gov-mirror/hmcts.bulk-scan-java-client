@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * Envelope
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-02-25T22:45:18.182988Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-02-26T14:51:24.148474Z[Europe/London]")
 
 public class Envelope   {
   @JsonProperty("id")
