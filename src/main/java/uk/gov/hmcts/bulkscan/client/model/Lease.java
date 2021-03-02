@@ -41,9 +41,7 @@ public class Lease   {
   */
   @ApiModelProperty(required = true, value = "")
   @NotNull
-
   @Valid
-
   public UUID getId() {
     return id;
   }
@@ -62,8 +60,6 @@ public class Lease   {
    * @return expiresAt
   */
   @ApiModelProperty(value = "Date an time at which the lease will auto expire. Defaults to 1 hour from now.")
-
-
   public String getExpiresAt() {
     return expiresAt;
   }

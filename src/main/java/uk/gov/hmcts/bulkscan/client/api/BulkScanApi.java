@@ -60,7 +60,7 @@ public interface BulkScanApi {
     @RequestMapping(value = "/envelopes/{team}/envelope/{envelopeId}/lease/{leaseId}",
         consumes = "application/json",
         method = RequestMethod.PUT)
-    ResponseEntity<Void> aquireEnvelopeLease(@ApiParam(value = "Team name who the envelopes belong to. Supplied S2S token will be validated against this path",required=true) @PathVariable("team") String team,@ApiParam(value = "UUID for the envelope to be leased",required=true) @PathVariable("envelopeId") UUID envelopeId,@ApiParam(value = "UUID for a lease to be created",required=true) @PathVariable("leaseId") UUID leaseId,@ApiParam(value = "S2S auth token" ,required=true) @RequestHeader(value="ServiceAuthorization", required=true) String serviceAuthorization,@ApiParam(value = "The lease to create."  )  @Valid @RequestBody(required = false) Lease lease);
+    Lease aquireEnvelopeLease(@ApiParam(value = "Team name who the envelopes belong to. Supplied S2S token will be validated against this path",required=true) @PathVariable("team") String team,@ApiParam(value = "UUID for the envelope to be leased",required=true) @PathVariable("envelopeId") UUID envelopeId,@ApiParam(value = "UUID for a lease to be created",required=true) @PathVariable("leaseId") UUID leaseId,@ApiParam(value = "S2S auth token" ,required=true) @RequestHeader(value="ServiceAuthorization", required=true) String serviceAuthorization,@ApiParam(value = "The lease to create."  )  @Valid @RequestBody(required = false) Lease lease);
 
 
     /**
@@ -85,7 +85,7 @@ public interface BulkScanApi {
         @ApiResponse(code = 409, message = "Lease already exists") })
     @RequestMapping(value = "/envelopes/{team}/envelope/{envelopeId}/lease/{leaseId}",
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> breakEnvelopeLease(@ApiParam(value = "Team name who the envelopes belong to. Supplied S2S token will be validated against this path",required=true) @PathVariable("team") String team,@ApiParam(value = "UUID for the envelope to remove the lease from",required=true) @PathVariable("envelopeId") UUID envelopeId,@ApiParam(value = "UUID for a lease to be deleted",required=true) @PathVariable("leaseId") UUID leaseId,@ApiParam(value = "S2S auth token" ,required=true) @RequestHeader(value="ServiceAuthorization", required=true) String serviceAuthorization);
+    void breakEnvelopeLease(@ApiParam(value = "Team name who the envelopes belong to. Supplied S2S token will be validated against this path",required=true) @PathVariable("team") String team,@ApiParam(value = "UUID for the envelope to remove the lease from",required=true) @PathVariable("envelopeId") UUID envelopeId,@ApiParam(value = "UUID for a lease to be deleted",required=true) @PathVariable("leaseId") UUID leaseId,@ApiParam(value = "S2S auth token" ,required=true) @RequestHeader(value="ServiceAuthorization", required=true) String serviceAuthorization);
 
 
     /**
@@ -107,7 +107,7 @@ public interface BulkScanApi {
     @RequestMapping(value = "/envelopes/{team}",
         produces = "application/json", 
         method = RequestMethod.GET)
-    ResponseEntity<List<Envelope>> getTeamEnvelopes(@ApiParam(value = "Team name who the envelopes belong to. Supplied S2S token will be validated against this path",required=true) @PathVariable("team") String team,@ApiParam(value = "S2S auth token" ,required=true) @RequestHeader(value="ServiceAuthorization", required=true) String serviceAuthorization);
+    Envelope[] getTeamEnvelopes(@ApiParam(value = "Team name who the envelopes belong to. Supplied S2S token will be validated against this path",required=true) @PathVariable("team") String team,@ApiParam(value = "S2S auth token" ,required=true) @RequestHeader(value="ServiceAuthorization", required=true) String serviceAuthorization);
 
 
     /**
@@ -127,6 +127,6 @@ public interface BulkScanApi {
         produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.PATCH)
-    ResponseEntity<Envelope> setEnvelopeStatus(@ApiParam(value = "Team name who the envelopes belong to. Supplied S2S token will be validated against this path",required=true) @PathVariable("team") String team,@ApiParam(value = "UUID for the envelope to remove the lease from",required=true) @PathVariable("envelopeId") UUID envelopeId,@ApiParam(value = "leaseId for the lease which has been aquired for this envelope" ,required=true) @RequestHeader(value="leaseId", required=true) UUID leaseId,@ApiParam(value = "S2S auth token" ,required=true) @RequestHeader(value="ServiceAuthorization", required=true) String serviceAuthorization,@ApiParam(value = "Sets the new status for the envelope."  )  @Valid @RequestBody(required = false) StatusUpdate processingStatus);
+    Envelope setEnvelopeStatus(@ApiParam(value = "Team name who the envelopes belong to. Supplied S2S token will be validated against this path",required=true) @PathVariable("team") String team,@ApiParam(value = "UUID for the envelope to remove the lease from",required=true) @PathVariable("envelopeId") UUID envelopeId,@ApiParam(value = "leaseId for the lease which has been aquired for this envelope" ,required=true) @RequestHeader(value="leaseId", required=true) UUID leaseId,@ApiParam(value = "S2S auth token" ,required=true) @RequestHeader(value="ServiceAuthorization", required=true) String serviceAuthorization,@ApiParam(value = "Sets the new status for the envelope."  )  @Valid @RequestBody(required = false) StatusUpdate processingStatus);
 
 }
