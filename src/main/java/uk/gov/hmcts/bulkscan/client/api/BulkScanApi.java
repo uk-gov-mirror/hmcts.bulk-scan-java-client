@@ -30,7 +30,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-02-26T14:51:24.148474Z[Europe/London]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-03-02T14:18:17.645232Z[Europe/London]")
 
 @Validated
 @Api(value = "BulkScan", description = "the BulkScan API")
@@ -50,14 +50,15 @@ public interface BulkScanApi {
      *         or Team or envelope not found not found (status code 404)
      *         or Lease already exists (status code 409)
      */
-    @ApiOperation(value = "Lease this envelope for processing", nickname = "aquireEnvelopeLease", notes = "", tags={ "bulk-scan", })
+    @ApiOperation(value = "Lease this envelope for processing", nickname = "aquireEnvelopeLease", notes = "", response = Lease.class, tags={ "bulk-scan", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 201, message = "Created", response = Lease.class),
         @ApiResponse(code = 401, message = "Requires S2S authentication token"),
         @ApiResponse(code = 403, message = "You do not have permission to access this teams envelopes"),
         @ApiResponse(code = 404, message = "Team or envelope not found not found"),
         @ApiResponse(code = 409, message = "Lease already exists") })
     @RequestMapping(value = "/envelopes/{team}/envelope/{envelopeId}/lease/{leaseId}",
+        produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.PUT)
     Lease aquireEnvelopeLease(@ApiParam(value = "Team name who the envelopes belong to. Supplied S2S token will be validated against this path",required=true) @PathVariable("team") String team,@ApiParam(value = "UUID for the envelope to be leased",required=true) @PathVariable("envelopeId") UUID envelopeId,@ApiParam(value = "UUID for a lease to be created",required=true) @PathVariable("leaseId") UUID leaseId,@ApiParam(value = "S2S auth token" ,required=true) @RequestHeader(value="ServiceAuthorization", required=true) String serviceAuthorization,@ApiParam(value = "The lease to create."  )  @Valid @RequestBody(required = false) Lease lease);

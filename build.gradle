@@ -71,11 +71,7 @@ jacocoTestReport {
     executionData(test, integration)
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: [
-                    'uk/gov/hmcts/reform/sendletter/api/model/v3/**',
-                    'uk/gov/hmcts/reform/sendletter/api/SendLetterResponse**',
-                    'uk/gov/hmcts/reform/sendletter/api/LetterWithPdfsRequest**',
-            ])
+            fileTree(dir: it, exclude: [])
         }))}
     reports {
         xml.enabled = true
@@ -139,9 +135,9 @@ publishing {
 
             pom.withXml {
                 def root = asNode()
-                root.appendNode('description', 'client for send-letter producer')
-                root.appendNode('name', 'Send letter client')
-                root.appendNode('url', 'https://github.com/hmcts/send-letter-client')
+                root.appendNode('description', 'client for Bulk Scan API')
+                root.appendNode('name', 'Bulk Scan client')
+                root.appendNode('url', 'https://github.com/hmcts/bulk-scan-java-client')
                 root.children().last() + pomConfig
             }
         }
@@ -155,10 +151,10 @@ bintray {
     publish = true
     pkg {
         repo = 'hmcts-maven'
-        name = 'send-letter-client'
+        name = 'bulk-scan-java-client'
         userOrg = 'hmcts'
         licenses = ['MIT']
-        vcsUrl = 'https://github.com/hmcts/send-letter-client'
+        vcsUrl = 'https://github.com/hmcts/bulk-scan-java-client'
         version {
             name = project.version
         }

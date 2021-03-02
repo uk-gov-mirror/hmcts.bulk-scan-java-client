@@ -27,20 +27,10 @@ public class AutoConfigurationTest {
     @Autowired
     private ApplicationContext context;
 
-//    @DisplayName("Should have HealthApi configured")
-//    @Test
-//    public void haveHealthCheck() {
-//        assertThat(context.getBeanNamesForType(SendLetterHealthApi.class)).hasSize(1);
-//        assertThat(context.getBeanNamesForType(SendLetterHealthIndicator.class)).hasSize(1);
-//    }
-
     @DisplayName("Should have Api configured")
     @Test
     public void haveApi() {
         assertThat(context.getBeanNamesForType(BulkScanApiClient.class)).hasSize(1);
         assertThat(context.getBeanNamesForType(BulkScanService.class)).hasSize(1);
-//        assertThat(context.getBeanNamesForType(SendLetterAutoConfiguration.class)).hasSize(1);
-//        assertThat(context.getBeanNamesForType(RetryTemplate.class)).hasSize(1);
-//        assertThat(context.getBeanNamesForType(SendLetterApi.class)).hasSize(1);
     }
 }
