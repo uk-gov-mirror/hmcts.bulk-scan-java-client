@@ -40,20 +40,28 @@ public class BulkScanService {
                 serviceAuthHeader,
                 lease
         );
-
-        // get stream from blob store
-//        String url = "https://bulkscansandbox.blob.core.windows.net/jasontest/test.txt?sp=r&st=2021-03-01T09:54:27Z&se=2021-03-01T17:54:27Z&spr=https&sv=2020-02-10&sr=b&sig=HSdFQZ8yWG1r5KwOsQWzUQXBI38o9QKWhHDM9%2B4yies%3D";
         return new URL(responseLease.getBlobSasUrl()).openStream();
     }
 
-    public void setEnvelopeStatus(LeasedEnvelope leaseEnvelope, StatusUpdate.StatusEnum status, String serviceAuthHeader) {
-        this.setEnvelopeStatus(leaseEnvelope, status, "", serviceAuthHeader);
+    public Envelope setEnvelopeStatus(LeasedEnvelope leaseEnvelope, StatusUpdate.StatusEnum status, String serviceAuthHeader) {
+        return this.setEnvelopeStatus(leaseEnvelope, status, "", serviceAuthHeader);
     }
 
-    public void setEnvelopeStatus(LeasedEnvelope leasedEnvelope, StatusUpdate.StatusEnum status, String statusReason, String serviceAuthHeader) {
+    public Envelope setEnvelopeStatus(LeasedEnvelope leasedEnvelope, StatusUpdate.StatusEnum status, String statusReason, String serviceAuthHeader) {
         StatusUpdate statusUpdate = new StatusUpdate();
         statusUpdate.setStatus(status);
-        this.bulkScanApiClient.setEnvelopeStatus(this.teamName, leasedEnvelope.getId(), leasedEnvelope.getLease().getId(), serviceAuthHeader, statusUpdate);
-        this.bulkScanApiClient.breakEnvelopeLease(this.teamName, leasedEnvelope.getId(), leasedEnvelope.getLease().getId(), serviceAuthHeader);
+        Envelope updatedEnvelope = this.bulkScanApiClient.setEnvelopeStatus(
+                this.teamName,
+                leasedEnvelope.getId(),
+                leasedEnvelope.getLease().getId(),
+                serviceAuthHeader,
+                statusUpdate);
+        this.bulkScanApiClient.breakEnvelopeLease(
+                this.teamName,
+                leasedEnvelope.getId(),
+                leasedEnvelope.getLease().getId(),
+                serviceAuthHeader);
+
+        return updatedEnvelope;
     }
 }

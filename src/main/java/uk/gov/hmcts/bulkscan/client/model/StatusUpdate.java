@@ -70,8 +70,6 @@ public class StatusUpdate   {
   */
   @ApiModelProperty(required = true, value = "Status to set the envelope to")
   @NotNull
-
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -90,8 +88,6 @@ public class StatusUpdate   {
    * @return reason
   */
   @ApiModelProperty(value = "Optionally describes the reason for the status being changed.")
-
-
   public String getReason() {
     return reason;
   }

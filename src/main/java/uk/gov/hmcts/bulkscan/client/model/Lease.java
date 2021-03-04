@@ -1,14 +1,14 @@
 package uk.gov.hmcts.bulkscan.client.model;
 
+import java.util.Date;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.UUID;
-import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Lease
@@ -20,7 +20,8 @@ public class Lease   {
   private UUID id;
 
   @JsonProperty("expiresAt")
-  private String expiresAt;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+  private Date expiresAt;
 
   @JsonProperty("blobSasUrl")
   private String blobSasUrl;
@@ -54,7 +55,7 @@ public class Lease   {
     this.id = id;
   }
 
-  public Lease expiresAt(String expiresAt) {
+  public Lease expiresAt(Date expiresAt) {
     this.expiresAt = expiresAt;
     return this;
   }
@@ -64,13 +65,11 @@ public class Lease   {
    * @return expiresAt
   */
   @ApiModelProperty(value = "Date an time at which the lease will auto expire. Defaults to 1 hour from now.")
-
-
-  public String getExpiresAt() {
+  public Date getExpiresAt() {
     return expiresAt;
   }
 
-  public void setExpiresAt(String expiresAt) {
+  public void setExpiresAt(Date expiresAt) {
     this.expiresAt = expiresAt;
   }
 
@@ -84,8 +83,6 @@ public class Lease   {
    * @return blobSasUrl
   */
   @ApiModelProperty(value = "Readonly url with SAS token to access the blob")
-
-
   public String getBlobSasUrl() {
     return blobSasUrl;
   }

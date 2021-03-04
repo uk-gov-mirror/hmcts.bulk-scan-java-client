@@ -1,15 +1,15 @@
 package uk.gov.hmcts.bulkscan.client.model;
 
+import java.util.Date;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.UUID;
-import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Envelope
@@ -21,10 +21,12 @@ public class Envelope   {
   private UUID id;
 
   @JsonProperty("dateReceived")
-  private String dateReceived;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+  private Date dateReceived;
 
   @JsonProperty("dateProcessed")
-  private String dateProcessed;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+  private Date dateProcessed;
 
   /**
    * Gets or Sets status
@@ -82,9 +84,7 @@ public class Envelope   {
    * @return id
   */
   @ApiModelProperty(value = "")
-
   @Valid
-
   public UUID getId() {
     return id;
   }
@@ -93,7 +93,7 @@ public class Envelope   {
     this.id = id;
   }
 
-  public Envelope dateReceived(String dateReceived) {
+  public Envelope dateReceived(Date dateReceived) {
     this.dateReceived = dateReceived;
     return this;
   }
@@ -103,17 +103,15 @@ public class Envelope   {
    * @return dateReceived
   */
   @ApiModelProperty(value = "")
-
-
-  public String getDateReceived() {
+  public Date getDateReceived() {
     return dateReceived;
   }
 
-  public void setDateReceived(String dateReceived) {
+  public void setDateReceived(Date dateReceived) {
     this.dateReceived = dateReceived;
   }
 
-  public Envelope dateProcessed(String dateProcessed) {
+  public Envelope dateProcessed(Date dateProcessed) {
     this.dateProcessed = dateProcessed;
     return this;
   }
@@ -123,13 +121,11 @@ public class Envelope   {
    * @return dateProcessed
   */
   @ApiModelProperty(value = "")
-
-
-  public String getDateProcessed() {
+  public Date getDateProcessed() {
     return dateProcessed;
   }
 
-  public void setDateProcessed(String dateProcessed) {
+  public void setDateProcessed(Date dateProcessed) {
     this.dateProcessed = dateProcessed;
   }
 
@@ -143,8 +139,6 @@ public class Envelope   {
    * @return status
   */
   @ApiModelProperty(value = "")
-
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -163,8 +157,6 @@ public class Envelope   {
    * @return isLeased
   */
   @ApiModelProperty(value = "")
-
-
   public Boolean getIsLeased() {
     return isLeased;
   }
@@ -183,8 +175,6 @@ public class Envelope   {
    * @return auditTrail
   */
   @ApiModelProperty(value = "")
-
-
   public String getAuditTrail() {
     return auditTrail;
   }

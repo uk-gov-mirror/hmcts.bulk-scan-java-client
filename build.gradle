@@ -130,7 +130,7 @@ publishing {
             artifact sourcesJar
             artifact javadocJar
             groupId project.group
-            artifactId 'send-letter-client'
+            artifactId 'bulk-scan-java-client'
             version project.version
 
             pom.withXml {
@@ -167,6 +167,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.0.1'
 
     implementation group: 'io.github.openfeign', name: 'feign-jackson', version: '11.0'
+    implementation group: 'io.github.openfeign', name: 'feign-httpclient', version: '11.0'
 
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.6'
     implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.1.0'
@@ -174,13 +175,13 @@ dependencies {
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.7.1'
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.1'
-
-    integrationTestImplementation sourceSets.main.runtimeClasspath
-    integrationTestImplementation sourceSets.test.runtimeClasspath
-    integrationTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
         exclude group: 'junit', module: 'junit'
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+
+    integrationTestImplementation sourceSets.main.runtimeClasspath
+    integrationTestImplementation sourceSets.test.runtimeClasspath
 }
 
 tasks.withType(Test) {
