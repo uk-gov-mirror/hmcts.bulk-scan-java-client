@@ -20,11 +20,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.bulkscan.client.BulkScanAutoConfiguration;
 import uk.gov.hmcts.bulkscan.client.model.Envelope;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 @EnableAutoConfiguration
 @ExtendWith(SpringExtension.class)
@@ -75,7 +79,6 @@ public class BulkScanServiceTest {
                 .hasSize(0);
     }
 
-
     @Test
     public void getTeamEnvelopesSome() throws JsonProcessingException {
         stubTeamEnvelopes();
@@ -92,6 +95,27 @@ public class BulkScanServiceTest {
             Assertions.assertThat(result[i].getIsLeased()).isFalse();
             Assertions.assertThat(result[i].getAuditTrail()).isNotNull();
         }        
+    }
+    
+    @Test
+    public void getEnvelopeData() throws IOException {
+        UUID leaseId = UUID.randomUUID();
+        stubTeamEnvelopes();
+        Envelope e = bulkScanService.getTeamEnvelopes("s2sToken")[0];
+        wireMockServer.stubFor(put(urlMatching(
+                "/envelopes/" + this.teamName + "/envelope/" + e.getId() + "/lease/.+"))
+                .willReturn(WireMock.aResponse().withStatus(201).withBody("{\n"
+                       + "            \"id\": \"" + leaseId + "\",\n"
+                       + "            \"expiresAt\": \"" + LocalDateTime.now().plusHours(1L) + "\",\n"
+                       + "            \"blobSasUrl\": \"http://localhost:6401/mahblob?sas=withatoken\"\n"
+                       + "        }")));
+
+        wireMockServer.stubFor(get("/mahblob?sas=withatoken").willReturn(aResponse().withBodyFile("testStreamingFile.txt")));
+
+        InputStream stream = bulkScanService.getEnvelopeData(e, "s2sToken");
+        byte[] streamContents = stream.readAllBytes();
+        stream.close();
+        Assertions.assertThat(streamContents).isEqualTo("Hello World".getBytes());
     }
 
     private void stubTeamEnvelopes() throws JsonProcessingException {

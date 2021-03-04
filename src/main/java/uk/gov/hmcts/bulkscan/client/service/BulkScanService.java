@@ -3,7 +3,6 @@ package uk.gov.hmcts.bulkscan.client.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.bulkscan.client.api.BulkScanApi;
 import uk.gov.hmcts.bulkscan.client.model.Envelope;
@@ -14,7 +13,6 @@ import uk.gov.hmcts.bulkscan.client.model.StatusUpdate;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.List;
 
 @Service
 public class BulkScanService {
@@ -22,7 +20,7 @@ public class BulkScanService {
 
     private final BulkScanApi bulkScanApiClient;
 
-    @Value( "${bulk-scan.team-name}" )
+    @Value("${bulk-scan.team-name}")
     private String teamName;
 
     public BulkScanService(BulkScanApi bulkScanApiClient) {
@@ -35,7 +33,7 @@ public class BulkScanService {
 
     public InputStream getEnvelopeData(Envelope envelope, String serviceAuthHeader) throws IOException {
         Lease lease = new Lease();
-        Lease responseLease = this.bulkScanApiClient.aquireEnvelopeLease(
+        Lease responseLease = this.bulkScanApiClient.acquireEnvelopeLease(
                 this.teamName,
                 envelope.getId(),
                 lease.getId(),
@@ -44,8 +42,8 @@ public class BulkScanService {
         );
 
         // get stream from blob store
-        String url = "https://bulkscansandbox.blob.core.windows.net/jasontest/test.txt?sp=r&st=2021-03-01T09:54:27Z&se=2021-03-01T17:54:27Z&spr=https&sv=2020-02-10&sr=b&sig=HSdFQZ8yWG1r5KwOsQWzUQXBI38o9QKWhHDM9%2B4yies%3D";
-        return new URL(url).openStream();
+//        String url = "https://bulkscansandbox.blob.core.windows.net/jasontest/test.txt?sp=r&st=2021-03-01T09:54:27Z&se=2021-03-01T17:54:27Z&spr=https&sv=2020-02-10&sr=b&sig=HSdFQZ8yWG1r5KwOsQWzUQXBI38o9QKWhHDM9%2B4yies%3D";
+        return new URL(responseLease.getBlobSasUrl()).openStream();
     }
 
     public void setEnvelopeStatus(LeasedEnvelope leaseEnvelope, StatusUpdate.StatusEnum status, String serviceAuthHeader) {
